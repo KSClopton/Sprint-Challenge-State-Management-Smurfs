@@ -4,13 +4,17 @@ import { SmurfProvider, SmurfContext } from './SmurfContext'
 import axios from 'axios'
 import {NavBar} from './NavBar'
 import {InputForm} from './InputForm'
+import styled from 'styled-components'
+import SmurfVillage from '../Images/SmurfVillage.jpg'
+import { SmurfCount } from "./SmurfCount";
 
 const initialForm = {name: '', height: '', age: ''}
+// const smurfVillage = {name: '', height: '', age: ''}
 
 function App() {
-  const [[smurfs], setSmurfs] = useContext(SmurfContext);
-  const [test, setTest] = useState([])
-  const [formValues, setValues] = useState(initialForm)
+  const [smurfs, setSmurfs] = useContext(SmurfContext);
+  const [formValues, setValues] = useState(initialForm);
+  // const [smurfVillage, setSmurfVillage] = useState(smurfVillage)
 
   const handleSubmit = e => {
     const newSmurf = {
@@ -22,7 +26,7 @@ function App() {
 }
 
 const handleChanges = e => {
-  const name = e.taget.name
+  const name = e.target.name
   const value = e.target.value
 
   setValues({
@@ -31,14 +35,12 @@ const handleChanges = e => {
   })
 }
   
+  
   const getSmurfs = () => {
     axios.get('http://localhost:3333/smurfs')
     .then(res => {
       console.log(res.data)
-      // res.data = an array with one object
-      // setSmurfs(res.data)
-      // console.log(test)
-      // setSmurfs(res)
+      setSmurfs(res.data)
     })
     .catch(err => {
       console.log(err)
@@ -47,7 +49,6 @@ const handleChanges = e => {
   const postNewSmurf = (newSmurf) => {
     axios.post('http://localhost:3333/smurfs', newSmurf)
     .then(res => {
-      setSmurfs(res.data)
     })
     .catch(err => {
       console.log('Sorry, your post did not work')
@@ -56,23 +57,36 @@ const handleChanges = e => {
       console.log("do this last")
     })
   }
-
+  // const showSmurfs = () => {
+  //   smurfs.map(item => 
+  //     setSmurfVillage(item)
+  //     )
+  // }
   useEffect(() => {
     getSmurfs()
   }, [])
     return (
-    <SmurfProvider>
+    
      
-      <div className="App">
+      <MainDiv className="App">
         <NavBar />
-        {!test ? 'loading...' : test.map(item => (
-        <h2>{item.name}</h2>))}
         <InputForm handleSubmit={handleSubmit} handleChanges={handleChanges} formValues={formValues}/>
-        <div>Welcome to your state management version of Smurfs!</div>
-      </div>
-    </SmurfProvider>
+        {!smurfs ? 'loading...' : smurfs.map(item => (
+          <h2>{item.name}</h2>
+        ))}
+        {/* <button onClick={showSmurfs}>Get smurfs</button> */}
+        {/* <SmurfCount smurf={showSmurfs}/> */}
+        
+      </MainDiv>
+    
     );
   }
 
+const MainDiv = styled.div`
+    background-image:url(${SmurfVillage});
+    background-size: cover;
+    height: 550px;
+
+`
 
 export default App;

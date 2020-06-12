@@ -5,7 +5,6 @@ import Axios from 'axios'
 
 export const InputForm = (props) => {
     const {handleChanges, handleSubmit, formValues} = props
-    const [smurfs, setSmurfs] = useContext(SmurfContext)
 
     return (
         <form onSubmit={handleSubmit}>
@@ -27,9 +26,7 @@ export const InputForm = (props) => {
             name='height'
             onChange={handleChanges}
             />
-
-
-
+            <button type='submit'>Submit!</button>
         </form>
     )
 }

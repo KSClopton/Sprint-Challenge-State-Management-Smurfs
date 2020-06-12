@@ -2,9 +2,9 @@ import React, {useState, createContext} from 'react'
 
 export const SmurfContext = createContext();
 
-export const SmurfProvider = props => {
-    const [smurfs, setSmurfs] = useState([]);
-    console.log(smurfs);
+export const SmurfProvider = (props) => {
+    const [smurfs, setSmurfs] = useState([])
+    console.log(smurfs)
 
     return (
 
